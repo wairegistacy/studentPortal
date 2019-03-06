@@ -91,47 +91,6 @@ class Auth extends CI_Controller
 		}
 	}
 
-	public function project_details()
-	{
-		$this->load->view('project_details');
-
-		if (isset($_POST['project_details'])) {
-			$this->form_validation->set_rules('Project_title', 'Project_title', 'required');
-			$this->form_validation->set_rules('Name_of_school', 'Name_of_school', 'required');
-			$this->form_validation->set_rules('Student_name', 'Student_name', 'required');
-			$this->form_validation->set_rules('Introduction', 'Introduction', 'required');
-			$this->form_validation->set_rules('Method', 'Method', 'required');
-			$this->form_validation->set_rules('Results', 'Results', 'required');
-			$this->form_validation->set_rules('Conclusion', 'Conclusion', 'required');
-			$this->form_validation->set_rules('Referees', 'Referees', 'required');
-			$this->form_validation->set_rules('Acknowledge', 'Acknowledge', 'required');
-
-		}
-
-		//if form validation true
-		if ($this->form_validation->run() == TRUE) {
-			echo 'Registered successfully';
-
-//		add user in database
-			$data = array(
-				'Project_title' => $_POST['Project_title'],
-				'Name_of_school' => $_POST ['Name_of_school'],
-				'Student_name' => $_POST ['Student_name'],
-				'Introduction' => $_POST ['Introduction'],
-				'Method' => $_POST['Method'],
-				'Results' => $_POST['Results'],
-				'Conclusion' => $_POST['Conclusion'],
-				'Referees' => $_POST['Referees'],
-				'Acknowledge' => $_POST['Acknowledge'],
-			);
-
-			$this->db->insert('project_details', $data);
-
-			$this->session->set_flashdata("success", "The details have been successfully inserted");
-//	redirect("auth/login","refresh");
-
-		}
-	}
 
 	public function addAdmin()
 	{
@@ -291,37 +250,198 @@ class Auth extends CI_Controller
 
 	}
 
-	public function waridiprofile()
-	{
-		$this->load->view('waridiprofile');
-	}
-
-
-	public function adminLogout()
-	{
-		redirect("auth/adminLogin", "refresh");
-
-	}
-
+	//function that displays the project.php page
 	public function projects()
 	{
-		$this->load->view('layout/header');
+
 		$this->load->view('projects');
-		$this->load->view('layout/footer');
 
 	}
 
 
-	public function adminprofile()
+	//function for inserting the school details to the database
+	public function school_details()
 	{
-		$this->load->view('adminprofile');
+		$this->load->view('school_details');
+
+		if (isset($_POST['school_details'])) {
+
+			$this->form_validation->set_rules('county', 'county', 'required');
+			$this->form_validation->set_rules('Name_of_school', 'Name_of_school', 'required');
+			$this->form_validation->set_rules('principalName', 'principalName', 'required');
+			$this->form_validation->set_rules('principalPhone', 'principalPhone','required');
+			$this->form_validation->set_rules('teacherinchargeName', 'teacherinchargeName', 'required');
+			$this->form_validation->set_rules('teacherinchargePhone', 'teacherinchargePhone', 'required');
+			$this->form_validation->set_rules('teacherinchargealternativePhone', 'teacherinchargealternativePhone', 'required');
+			$this->form_validation->set_rules('teacherinchargeEmail', 'teacherinchargeEmail','required');
+
+		}
+
+		//if form validation true
+		if ($this->form_validation->run() == TRUE) {
+
+
+//		add user in database
+			$data = array(
+				'county' => $_POST['county'],
+				'Name_of_school' => $_POST['Name_of_school'],
+				'principalName' => $_POST['principalName'],
+				'principalPhone' => $_POST['principalPhone'],
+				'teacherinchargeName' => $_POST['teacherinchargeName'],
+				'teacherinchargePhone' => $_POST['teacherinchargePhone'],
+				'teacherinchargealternativePhone' => $_POST['teacherinchargealternativePhone'],
+				'teacherinchargeEmail' => $_POST['teacherinchargeEmail']
+
+			);
+
+			$this->db->insert('school_details', $data);
+
+			$this->session->set_flashdata("success", "Registered successful");
+			redirect("auth/project_details","refresh");
+
+		}
+
 	}
 
+	//function of inserting the project details to the database
+	public function project_details()
+	{
+		$this->load->view('project_details');
+
+		if (isset($_POST['project_details'])) {
+			$this->form_validation->set_rules('category', 'category', 'required');
+			$this->form_validation->set_rules('level', 'level', 'required');
+			$this->form_validation->set_rules('Project_title', 'Project_title', 'required');
+			$this->form_validation->set_rules('Name_of_school', 'Name_of_school', 'required');
+			$this->form_validation->set_rules('Student_name', 'Student_name', 'required');
+			$this->form_validation->set_rules('Introduction', 'Introduction', 'required');
+			$this->form_validation->set_rules('Method', 'Method', 'required');
+			$this->form_validation->set_rules('Results', 'Results', 'required');
+			$this->form_validation->set_rules('Conclusion', 'Conclusion', 'required');
+			$this->form_validation->set_rules('Referees', 'Referees', 'required');
+			$this->form_validation->set_rules('Acknowledge', 'Acknowledge', 'required');
+
+		}
+
+		//if form validation true
+		if ($this->form_validation->run() == TRUE) {
+			echo 'Registered successfully';
+
+//		add user in database
+			$data = array(
+				'Project_title' => $_POST['Project_title'],
+				'Name_of_school' => $_POST ['Name_of_school'],
+				'Student_name' => $_POST ['Student_name'],
+				'Introduction' => $_POST ['Introduction'],
+				'Method' => $_POST['Method'],
+				'Results' => $_POST['Results'],
+				'Conclusion' => $_POST['Conclusion'],
+				'Referees' => $_POST['Referees'],
+				'Acknowledge' => $_POST['Acknowledge'],
+				'county' => $_POST['county'],
+				'level' => $_POST['level'],
+
+			);
+
+			$this->db->insert('project_details', $data);
+
+			$this->session->set_flashdata("success", "The details have been successfully inserted");
+			redirect("auth/firststudent_details","refresh");
+
+		}
+	}
+
+	//function for inserting the first student details to the database
+	public function firststudent_details()
+	{
+		$this->load->view('firststudent_details');
+
+		if (isset($_POST['firststudent_details'])) {
+
+			$this->form_validation->set_rules('name', 'name', 'required');
+			$this->form_validation->set_rules('gender', 'gender', 'required');
+			$this->form_validation->set_rules('birthDate', 'birthDate', 'required');
+			$this->form_validation->set_rules('phone', 'phone','required');
+			$this->form_validation->set_rules('class', 'class', 'required');
+
+		}
+
+		//if form validation true
+		if ($this->form_validation->run() == TRUE) {
+
+
+//		add user in database
+			$data = array(
+				'name' => $_POST['name'],
+				'gender' => $_POST['gender'],
+				'birthDate' => $_POST['birthDate'],
+				'phone' => $_POST['phone'],
+				'class' => $_POST['class']
+
+			);
+
+			$this->db->insert('student_details', $data);
+
+			$this->session->set_flashdata("success", "Registered successful");
+			redirect("auth/secondstudent_details","refresh");
+
+		}
+
+	}
+
+	public function secondstudent_details()
+	{
+		$this->load->view('secondstudent_details');
+
+		if (isset($_POST['secondstudent_details'])) {
+
+			$this->form_validation->set_rules('name', 'name', 'required');
+			$this->form_validation->set_rules('gender', 'gender', 'required');
+			$this->form_validation->set_rules('birthDate', 'birthDate', 'required');
+			$this->form_validation->set_rules('phone', 'phone','required');
+			$this->form_validation->set_rules('class', 'class', 'required');
+
+		}
+
+		//if form validation true
+		if ($this->form_validation->run() == TRUE) {
+
+
+//		add user in database
+			$data = array(
+				'name' => $_POST['name'],
+				'gender' => $_POST['gender'],
+				'birthDate' => $_POST['birthDate'],
+				'phone' => $_POST['phone'],
+				'class' => $_POST['class']
+
+			);
+
+			$this->db->insert('student_details', $data);
+
+			$this->session->set_flashdata("success", "Registered successful");
+			redirect("auth/project_details","refresh");
+
+		}
+
+	}
+
+//function displays the outreach.php page
+	public function submit_success()
+	{
+		$this->load->view('submit_success');
+	}
+
+
+
+//function which displays the page that shows an admin has been successfully registered
 	public function adminRegistered()
 	{
 
 		$this->load->view('adminRegistered');
 	}
+
+//function displays the outreach.php page
 	public function Outreach()
 	{
 		$this->load->view('Outreach');
@@ -330,340 +450,4 @@ class Auth extends CI_Controller
 
 
 }
-//	public function profile()
-//	{
-//
-//		$this->load->view('profile');
-//	}
-//
-//
-//public function madaraka()
-//	{
-//		$this->load->view('madaraka');
-//	}
-//	public function adminlogin()
-//	{
-//		$this->form_validation->set_rules('name', 'name', 'required');
-//		$this->form_validation->set_rules('password', 'password', 'min_length[5]');
-//
-//		if ($this->form_validation->run() == TRUE) {
-//			$name = $_POST['name'];
-//			$password = $_POST['password'];
-//
-//			//check user in the database
-//
-//			$this->db->select('*');
-//			$this->db->from('admin');
-//			$this->db->where(array('name' => $name, 'password' => $password));
-//			$query = $this->db->get();
-//
-//			$admin = $query->row();
-//
-//			//if admin exists
-//
-//			if ($admin->email) {
-//				//temporary message
-//				$this->session->set_flashdata("success", "You are logged in");
-//
-//				$_SESSION['user_logged'] = TRUE;
-//				$_SESSION['name'] = $admin->name;
-//
-//				//redirect to profile page
-//
-//				redirect("admin/adminprofile", "refresh");
-//
-//			} else {
-//				$this->session->set_flashdata("error", "Invalid. Please register.");
-//
-//				redirect("auth/adminlogin", "refresh");
-//			}
-//		}
-//		$this->load->view('adminlogin');
-//
-//	}
-//	public function adminregister()
-//	{
-//
-//		if(isset($_POST['adminregister']))
-//		{
-//			$this->form_validation->set_rules('name','name','required');
-//			$this->form_validation->set_rules('phone','phone','required');
-//			$this->form_validation->set_rules('email','email','required');
-//			$this->form_validation->set_rules('password','password','min_length[5]');
-//			$this->form_validation->set_rules('confirm password','confirm password','min_length[5]');
-//
-//		}
-//
-//		//if form validation true
-//		if($this->form_validation->run() == TRUE)
-//		{
-//			echo 'Registered successfully';
-//
-////		add user in database
-//			$data  = array(
-//				'name' =>$_POST['name'],
-//				'phone' =>$_POST['phone'],
-//				'email' =>$_POST['email'],
-//				'password' =>$_POST['password']
-//
-//			);
-//
-//			$this->db->insert('admin',$data);
-//
-//			$this->session->set_flashdata("success","The administrator has been registered.");
-//			redirect("auth/adminregistered","refresh");
-//
-//		}
-//
-//		$this->load->view('adminregister');
-//
-//	}
-//	public function adminregistered()
-//	{
-//
-//		$this->load->view('adminregistered');
-//	}
-//
-//	public function administrators()
-//	{
-//
-//		$this->load->view('administrators');
-//	}
-//
-//
-//	public function ownerregister()
-//	{
-//
-//		if(isset($_POST['ownerregister']))
-//		{
-//			$this->form_validation->set_rules('nationalId','nationalId','min_length[5]');
-//			$this->form_validation->set_rules('name','name','required');
-//			$this->form_validation->set_rules('hostelname','hostelname','required');
-//			$this->form_validation->set_rules('phone','phone','required');
-//			$this->form_validation->set_rules('password','password','min_length[5]');
-//			$this->form_validation->set_rules('confirm password','confirm password','min_length[5]');
-//
-//		}
-//
-//		//if form validation true
-//		if($this->form_validation->run() == TRUE)
-//		{
-//			echo 'Registered successfully';
-//
-////		add user in database
-//			$data  = array(
-//				'hostelname' =>$_POST['hostelname'],
-//				'phone' =>$_POST['phone'],
-//				'nationalId' =>$_POST['nationalId'],
-//				'name' =>$_POST['name'],
-//				'password' =>md5($_POST['password'])
-//			);
-//
-//			$this->db->insert('owner',$data);
-//
-//			$this->session->set_flashdata("success","The administrator has been registered.");
-//			redirect("auth/ownerregistered","refresh");
-//
-//		}
-//
-//		$this->load->view('ownerregister');
-//
-//	}
-//
-//	public function ownerlogout(){
-//		redirect("auth/ownerlogin","refresh");
-//
-//	}
-//
-//	public function ownerprofile()
-//	{
-//		$this->load->view('ownerprofile');
-//	}
-//	public function waridiprofile()
-//	{
-//		$this->load->view('waridiprofile');
-//	}
-//	public function taarifprofile()
-//	{
-//		$this->load->view('taarifprofile');
-//	}
-//	public function ayanaprofile()
-//	{
-//		$this->load->view('ayanaprofile');
-//	}
-//	public function ownerlogin()
-//	{
-//		$this->form_validation->set_rules('name', 'name', 'required');
-//		$this->form_validation->set_rules('password', 'password', 'min_length[5]');
-//
-//		if ($this->form_validation->run() == TRUE) {
-//			$name = $_POST['name'];
-//			$password = $_POST['password'];
-//
-//			//check user in the database
-//
-//			$this->db->select('*');
-//			$this->db->from('owner');
-//			$this->db->where(array('name' => $name, 'password' => $password));
-//			$query = $this->db->get();
-//
-//			$owner = $query->row();
-//
-//			//if admin exists
-//
-//			if ($owner->hostelname) {
-//				//temporary message
-//				$this->session->set_flashdata("success", "You are logged in");
-//
-//				$_SESSION['user_logged'] = TRUE;
-//				$_SESSION['name'] = $owner->name;
-//
-//				//redirect to profile page
-//
-//				redirect("auth/ownerprofile", "refresh");
-//
-//			} else {
-//				$this->session->set_flashdata("error", "Invalid. Please register.");
-//
-//				redirect("auth/ownerlogin", "refresh");
-//			}
-//		}
-//		$this->load->view('ownerlogin');
-//
-//	}
-//	public function hostelregister()
-//	{
-//
-//		if(isset($_POST['hostelregister']))
-//		{
-//			$this->form_validation->set_rules('name','name','required');
-//			$this->form_validation->set_rules('mobile','mobile','required');
-//			$this->form_validation->set_rules('address','address','required');
-//			$this->form_validation->set_rules('sharing','sharing','min_length[1]');
-//
-//		}
-//
-//		//if form validation true
-//		if($this->form_validation->run() == TRUE)
-//		{
-//			echo 'Registered successfully';
-//
-////		add user in database
-//			$data  = array(
-//				'name' =>$_POST['name'],
-//				'mobile' =>$_POST['mobile'],
-//				'address' =>$_POST['address'],
-//				'sharing' =>$_POST['sharing']
-//
-//			);
-//
-//			$this->db->insert('hostel',$data);
-//
-//			$this->session->set_flashdata("success","Hostel successfully registered.");
-//			redirect("auth/hostellogout","refresh");
-//
-//		}
-//
-//		$this->load->view('hostelregister');
-//
-//	}
-//	public function waridibookings()
-//	{
-//
-//		if(isset($_POST['waridibookings']))
-//		{
-//			$this->form_validation->set_rules('type','type','min_length[5]');
-//			$this->form_validation->set_rules('date','date','required');
-//			$this->form_validation->set_rules('hostelName','hostelName','required');
-//
-//		}
-//
-//		//if form validation true
-//		if($this->form_validation->run() == TRUE)
-//		{
-//			echo 'Registered successfully';
-//
-////		add user in database
-//			$data  = array(
-//				'type' =>$_POST['type'],
-//				'date' =>$_POST['date'],
-//				'hostelName' =>$_POST['hostelName'],
-//			);
-//
-//			$this->db->insert('bookings',$data);
-//
-//			$this->session->set_flashdata("success","You have booked.");
-//			redirect("auth/waridiprofile","refresh");
-//
-//		}
-//
-//		$this->load->view('waridibookings');
-//
-//	}
-//	public function ayanabookings()
-//	{
-//
-//		if(isset($_POST['ayanabookings']))
-//		{
-//			$this->form_validation->set_rules('type','type','min_length[5]');
-//			$this->form_validation->set_rules('date','date','required');
-//			$this->form_validation->set_rules('hostelName','hostelName','required');
-//
-//		}
-//
-//		//if form validation true
-//		if($this->form_validation->run() == TRUE)
-//		{
-//			echo 'Registered successfully';
-//
-////		add user in database
-//			$data  = array(
-//				'type' =>$_POST['type'],
-//				'date' =>$_POST['date'],
-//				'hostelName' =>$_POST['hostelName'],
-//			);
-//
-//			$this->db->insert('bookings',$data);
-//
-//			$this->session->set_flashdata("success","The administrator has been registered.");
-//			redirect("auth/ayanaprofile","refresh");
-//
-//		}
-//
-//		$this->load->view('ayanabookings');
-//
-//	}
-//	public function taarifbookings()
-//	{
-//
-//		if(isset($_POST['taarifbookings']))
-//		{
-//			$this->form_validation->set_rules('type','type','min_length[5]');
-//			$this->form_validation->set_rules('date','date','required');
-//			$this->form_validation->set_rules('hostelName','hostelName','required');
-//
-//		}
-//
-//		//if form validation true
-//		if($this->form_validation->run() == TRUE)
-//		{
-//			echo 'Registered successfully';
-//
-////		add user in database
-//			$data  = array(
-//				'type' =>$_POST['type'],
-//				'date' =>$_POST['date'],
-//				'hostelName' =>$_POST['hostelName'],
-//			);
-//
-//			$this->db->insert('bookings',$data);
-//
-//			$this->session->set_flashdata("success","The administrator has been registered.");
-//			redirect("auth/taarifprofile","refresh");
-//
-//		}
-//
-//		$this->load->view('taarifbookings');
-//
-//	}
-//}
+
