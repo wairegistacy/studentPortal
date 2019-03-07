@@ -13,6 +13,7 @@ class Auth extends CI_Controller
 		parent::__construct();
 		$this->load->library('form_validation');
 		$this->load->database();
+		$this->load->model('Auth_model');
 	}
 
 	public function outreach_details()
@@ -447,7 +448,11 @@ class Auth extends CI_Controller
 		$this->load->view('Outreach');
 	}
 
-
+//function to display the student details
+public function adminstudent_details(){
+$data['student_details']=$this->Auth_model->get_student_details();
+$this->load->view('adminstudent_details', $data);
+}
 
 }
 
